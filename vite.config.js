@@ -1,7 +1,14 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from "@tailwindcss/vite";
+import fs from 'fs';
 import path from 'path';
+
+// The panel themes import Filament's base CSS from vendor/, which asset-only
+// builds without Composer (Vercel) do not have.
+const filamentThemeInstalled = fs.existsSync(
+    path.resolve(import.meta.dirname, 'vendor/filament/filament/resources/css/theme.css'),
+);
 
 export default defineConfig({
     plugins: [
@@ -18,8 +25,12 @@ export default defineConfig({
                 // Chat
                 'packages/Chat/resources/js/chat.js',
                 // Filament
-                'resources/css/filament/app/theme.css',
-                'resources/css/filament/admin/theme.css',
+                ...(filamentThemeInstalled
+                    ? [
+                        'resources/css/filament/app/theme.css',
+                        'resources/css/filament/admin/theme.css',
+                    ]
+                    : []),
                 // Documentation
                 'packages/Documentation/resources/css/documentation.css',
                 'packages/Documentation/resources/js/documentation.js',
