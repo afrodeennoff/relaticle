@@ -142,6 +142,9 @@
             "Composer\\Config::disableProcessTimeout",
             "pnpm dlx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"bash bin/workspace-queue.sh\" \"php artisan pail --timeout=0\" \"pnpm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
+        "vercel": [
+            "@php artisan migrate --force --no-interaction"
+        ],
         "lint": [
             "rector",
             "rector process --config=rector-tests.php",

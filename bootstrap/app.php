@@ -73,7 +73,9 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request): bool => $request->is('chat') || $request->is('chat/*'),
         ]);
 
-        $middleware->trustProxies(at: [
+        $trustedProxies = env('TRUSTED_PROXIES');
+
+        $middleware->trustProxies(at: is_string($trustedProxies) && $trustedProxies !== '' ? $trustedProxies : [
             '127.0.0.0/8',
             '10.0.0.0/8',
             '172.16.0.0/12',
